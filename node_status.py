@@ -16,11 +16,13 @@ def node_status_report(filename):
 
     node_list = NodeList()
 
+    messages = []
+
     with open(filename) as f:
         for index, line in enumerate(f):
             try:
                 message = Message(line)
-                node_list.incoming_message(message)
+                messages.append(message)
 
             except InvalidLineException:
                 print "Error parsing line", index
@@ -33,6 +35,9 @@ def node_status_report(filename):
             #     receive_time, generated_time, node1, notification_type, node2 = line
             # else:
             #     print "Error in line", index
+    messages.sort(key=lambda m: m.generated_time)
+    for m in messages:
+        node_list.incoming_message(m)
     node_list.print_nodes()
 
 if __name__ == "__main__":
