@@ -35,7 +35,7 @@ def node_status_report(filename):
             #     receive_time, generated_time, node1, notification_type, node2 = line
             # else:
             #     print "Error in line", index
-    messages.sort(key=lambda m: m.generated_time)
+    # messages.sort(key=lambda m: m.generated_time)
     for m in messages:
         node_list.incoming_message(m)
     node_list.print_nodes()

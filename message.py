@@ -9,6 +9,7 @@ class Message(object):
         if len(split_line) != 4 and len(split_line) != 5:
             raise InvalidLineException("invalid line length")
         
+        self.raw_message = line
         self.receive_time = split_line[0]
         self.generated_time = split_line[1]
         self.node1_name = split_line[2]        
