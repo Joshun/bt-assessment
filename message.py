@@ -1,7 +1,6 @@
 from node_exceptions import InvalidLineException
 
 class Message(object):
-    # def __init__(self, receive_time, generated_time, notification_type, node1_name, node2_name):
     def __init__(self, raw_line):
         line = raw_line.strip("\n")
         split_line = line.split(" ")

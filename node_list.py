@@ -1,3 +1,4 @@
+from __future__ import print_function
 from node import Node
 from debug_log import print_debug
 
@@ -24,27 +25,12 @@ class NodeList(object):
 
     def incoming_message(self, message):
         # we know that the node sending the message must be alive
-        # self._nodes[message.node1_name] = Node(
-        #     message.node1_name,
-        #     "ALIVE",
-        #     message
-        # )
         self._update_node(message.node1_name, "ALIVE", message)
 
         if message.notification_type == "LOST":
-            # self._nodes[message.node2_name] = Node(
-            #     message.node2_name,
-            #     "DEAD",
-            #     message
-            # )
             self._update_node(message.node2_name, "DEAD", message)
 
         elif message.notification_type == "FOUND":
-            # self._nodes[message.node2_name] = Node(
-            #     message.node2_name,
-            #     "ALIVE",
-            #     message
-            # )
             self._update_node(message.node2_name, "ALIVE", message)
     
     def print_nodes(self):
@@ -52,8 +38,10 @@ class NodeList(object):
             node = self._nodes[node_name]
 
             if node.last_message.node2_name == None:
-                print node_name, node.status, node.last_message.receive_time, node.last_message.node1_name, node.last_message.notification_type
+                print(node_name, node.status, node.last_message.receive_time,
+                    node.last_message.node1_name, node.last_message.notification_type)
             else:
-                print node_name, node.status, node.last_message.receive_time, node.last_message.node1_name, node.last_message.notification_type, node.last_message.node2_name
+                print(node_name, node.status, node.last_message.receive_time,
+                    node.last_message.node1_name, node.last_message.notification_type, node.last_message.node2_name)
                 
 

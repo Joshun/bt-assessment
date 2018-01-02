@@ -10,9 +10,6 @@ def show_help():
     print "Usage: node_status.py <input_file.txt>"
 
 def node_status_report(filename):
-    # we are processing the file line-by-line instead of reading it all in
-    # this is because it is more efficient in terms of storage
-    # nodes = {}
 
     node_list = NodeList()
 
@@ -26,16 +23,7 @@ def node_status_report(filename):
 
             except InvalidLineException:
                 print "Error parsing line", index
-            # line = line.strip("\n")
-            # line = line.split(" ")
 
-            # if len(line) == 4:
-            #     receive_time, generated_time, node1, notification_type = line          
-            # elif len(line) == 5:
-            #     receive_time, generated_time, node1, notification_type, node2 = line
-            # else:
-            #     print "Error in line", index
-    # messages.sort(key=lambda m: m.generated_time)
     for m in messages:
         node_list.incoming_message(m)
     node_list.print_nodes()
