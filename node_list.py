@@ -18,13 +18,13 @@ class NodeList(object):
 
         # if node does not exist already, create it
         # if incoming message about node is newer than last state update, update node's state
-        if node_name not in self._nodes_last_update or int(message.receive_time) > int(self._nodes_last_update[node_name]):
+        if node_name not in self._nodes_last_update or int(message.generated_time) > int(self._nodes_last_update[node_name]):
             self._nodes[node_name] = Node(
                 node_name,
                 notification_type,
                 message
             )
-            self._nodes_last_update[node_name] = message.receive_time
+            self._nodes_last_update[node_name] = message.generated_time
 
             print_debug("Updated node", node_name, "from message", "\"" + message.raw_message + "\"")
         else:
