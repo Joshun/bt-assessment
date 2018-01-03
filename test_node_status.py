@@ -29,7 +29,7 @@ class TestNodeList(unittest.TestCase):
 
         self.assertIn("luke", self.node_list._nodes)
         self.assertEqual(self.node_list._nodes["luke"].status, "DEAD")
-
+        self.assertEqual(self.node_list._nodes["vader"].status, "ALIVE")
     
     def test_found_incoming_message(self):
         message = Message("1508405807467 1508405807479 luke FOUND r2d2")
@@ -37,6 +37,7 @@ class TestNodeList(unittest.TestCase):
 
         self.assertIn("r2d2", self.node_list._nodes)
         self.assertEqual(self.node_list._nodes["r2d2"].status, "ALIVE")
+        self.assertEqual(self.node_list._nodes["luke"].status, "ALIVE")
         
 
 
