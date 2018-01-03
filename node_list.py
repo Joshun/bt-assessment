@@ -1,3 +1,8 @@
+""" 
+
+node_list.py: represents a collection of nodes and enables them to be updated
+
+"""
 from __future__ import print_function
 from node import Node
 from debug_log import print_debug
@@ -9,6 +14,10 @@ class NodeList(object):
         
 
     def _update_node(self, node_name, notification_type, message):
+        """ updates a specific node (if necessary) """
+
+        # if node does not exist already, create it
+        # if incoming message about node is newer than last state update, update node's state
         if node_name not in self._nodes_last_update or int(message.receive_time) > int(self._nodes_last_update[node_name]):
             self._nodes[node_name] = Node(
                 node_name,
@@ -24,6 +33,8 @@ class NodeList(object):
         
 
     def incoming_message(self, message):
+        """ handles an incoming message, updating the relevant nodes accordingly """
+
         # we know that the node sending the message must be alive
         self._update_node(message.node1_name, "ALIVE", message)
 
@@ -34,6 +45,7 @@ class NodeList(object):
             self._update_node(message.node2_name, "ALIVE", message)
     
     def print_nodes(self):
+        """ prints out the state of all the nodes in NodeList """
         for node_name in self._nodes:
             node = self._nodes[node_name]
 

@@ -1,15 +1,20 @@
 #!/usr/bin/env python2
 
+from __future__ import print_function
 import sys
 
 from node_exceptions import InvalidLineException
 from node_list import NodeList
 from message import Message
 
+
 def show_help():
-    print "Usage: node_status.py <input_file.txt>"
+    """ prints help message """
+    print("Usage: node_status.py <input_file.txt>")
+
 
 def node_status_report(filename):
+    """ main method - reads in input file and parses it to retrieve latest state of nodes """
 
     node_list = NodeList()
 
@@ -22,15 +27,16 @@ def node_status_report(filename):
                 messages.append(message)
 
             except InvalidLineException:
-                print "Error parsing line", index
+                print("Error parsing line", index)
 
     for m in messages:
         node_list.incoming_message(m)
     node_list.print_nodes()
 
+
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print "Invalid number of arguments."
+        print("Invalid number of arguments.")
         show_help()
         sys.exit(1)
     elif sys.argv[1] == "-h" or sys.argv[1] == "--help":

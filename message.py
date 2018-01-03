@@ -1,3 +1,9 @@
+"""
+
+message.py: represents an individual message, with error checking
+
+"""
+
 from node_exceptions import InvalidLineException
 
 class Message(object):
