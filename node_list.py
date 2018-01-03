@@ -8,6 +8,8 @@ from node import Node
 from debug_log import print_debug
 
 class NodeList(object):
+    TRUSTED_MESSAGE_THRESHOLD = 50
+
     def __init__(self):
         self._nodes = {}
         self._nodes_last_update = {}
@@ -19,11 +21,26 @@ class NodeList(object):
         # if node does not exist already, create it
         # if incoming message about node is newer than last state update, update node's state
         if node_name not in self._nodes_last_update or int(message.generated_time) > int(self._nodes_last_update[node_name]):
-            self._nodes[node_name] = Node(
-                node_name,
-                notification_type,
-                message
-            )
+
+            # difference between received_time and generated_time is greater than 50ms
+            # therefore we cannot be sure of what the node's state will be
+            # since we can't trust received_time
+            if abs(int(message.receive_time) - int(message.generated_time)) > self.TRUSTED_MESSAGE_THRESHOLD:
+                self._nodes[node_name] = Node(
+                    node_name,
+                    "UNKNOWN",
+                    message
+                )
+                print_debug("Warning:", node_name, "state is unknown since message arrived 50ms after it was sent")
+
+            # general case - update the code with the relevant notification_type
+            else:
+                self._nodes[node_name] = Node(
+                    node_name,
+                    notification_type,
+                    message
+                )
+
             self._nodes_last_update[node_name] = message.generated_time
 
             print_debug("Updated node", node_name, "from message", "\"" + message.raw_message + "\"")
