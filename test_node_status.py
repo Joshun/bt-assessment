@@ -14,13 +14,27 @@ class TestNodeList(unittest.TestCase):
         self.assertTrue("vader" in self.node_list._nodes)
         self.assertTrue(self.node_list._nodes["vader"].status == "UNKNOWN")
     
-    def test_alive_incoming_message(self):
+    def test_hello_incoming_message(self):
         message = Message("1508405807340 1508405807350 luke HELLO")
         self.node_list.incoming_message(message)
 
         self.assertTrue("luke" in self.node_list._nodes)
         self.assertTrue(self.node_list._nodes["luke"].status == "ALIVE")
     
+
+    def test_lost_incoming_message(self):
+        message = Message("1508405807512 1508405807500 vader LOST luke")
+        self.node_list.incoming_message(message)
+
+        self.assertTrue("luke" in self.node_list._nodes)
+        self.assertTrue(self.node_list._nodes["luke"].status == "DEAD")
+    
+    def test_found_incoming_message(self):
+        message = Message("1508405807467 1508405807479 luke FOUND r2d2")
+        self.node_list.incoming_message(message)
+
+        self.assertTrue("r2d2" in self.node_list._nodes)
+        self.assertTrue(self.node_list._nodes["r2d2"].status == "ALIVE")
 
 if __name__ == "__main__":
     unittest.main()
