@@ -7,7 +7,7 @@ debug_log.py: utility module for printing debug output that can be toggled on or
 
 from __future__ import print_function
 
-DEBUG = True
+DEBUG = False
 
 def print_debug(*args, **kwargs):
     if DEBUG:
