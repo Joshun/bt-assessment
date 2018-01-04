@@ -21,29 +21,16 @@ class NodeList(object):
         # if node does not exist already, create it
         # if incoming message about node is newer than last state update, update node's state
         if node_name not in self._nodes_last_update or int(message.generated_time) > int(self._nodes_last_update[node_name]):
-
-            # difference between received_time and generated_time is greater than 50ms
-            # therefore we cannot be sure of what the node's state will be
-            # since we can't trust received_time
-            if abs(int(message.receive_time) - int(message.generated_time)) > self.TRUSTED_MESSAGE_THRESHOLD:
-                self._nodes[node_name] = Node(
-                    node_name,
-                    "UNKNOWN",
-                    message
-                )
-                print_debug("Warning:", node_name, "state is unknown since message arrived 50ms after it was sent")
-
-            # general case - update the code with the relevant notification_type
-            else:
-                self._nodes[node_name] = Node(
-                    node_name,
-                    notification_type,
-                    message
-                )
+            self._nodes[node_name] = Node(
+                node_name,
+                notification_type,
+                message
+            )
 
             self._nodes_last_update[node_name] = message.generated_time
 
             print_debug("Updated node", node_name, "from message", "\"" + message.raw_message + "\"")
+            
         else:
             print_debug("Ignoring message for node", node_name, ":", "\"" + message.raw_message + "\"")
 
